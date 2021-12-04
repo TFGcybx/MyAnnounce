@@ -50,12 +50,11 @@ public class NewAnnounce extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initView();
         initData();
-        Add=(ImageButton) getActivity().findViewById(R.id.add);
+        Add=(ImageButton) root.findViewById(R.id.add);
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), new_announce.class);
-                startActivityForResult(intent,1);
+                addAnnounce(v);
             }
         });
     }
@@ -95,6 +94,10 @@ public class NewAnnounce extends Fragment {
         {
             this.initData();
         }
+    }
+    public void addAnnounce(View view){
+        Intent intent=new Intent(getActivity(),new_announce.class);
+        startActivityForResult(intent,1);
     }
 
 }
