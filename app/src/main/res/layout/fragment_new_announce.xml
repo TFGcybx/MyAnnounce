@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".new_announce">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/topTitle"
+        android:text="Announce"
+        android:textSize="30sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center_horizontal"
+        android:background="#6E1482"/>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topTitle" />
+    <ImageButton
+        android:id="@+id/add"
+        android:onClick="addAnnounce"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        android:layout_alignParentRight="true"
+        android:background="#00FF0000"
+        android:src="@drawable/tianjia"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

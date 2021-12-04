@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".new_announce">
+
+    <EditText
+        android:id="@+id/et_announce_uname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:hint="Uer's Name"
+        android:textColor="#ffbd27"/>
+
+    <EditText
+        android:id="@+id/et_announce_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:hint="Announce Title"
+        android:textColor="#ffbd27"
+        android:layout_below="@+id/et_announce_uname"/>
+
+    <EditText
+        android:id="@+id/et_announce_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:hint="Announce Details"
+        android:textColor="#ffbd27"
+        android:layout_below="@+id/et_announce_title"
+        android:minLines="2"
+        android:maxLines="3"/>
+
+    <Button
+        android:onClick="okButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="发表"
+        android:textSize="20sp"
+        android:textColor="#333333"
+        android:background="#ffbd27"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>
