@@ -19,6 +19,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +31,7 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
     private ListView listView;
     private ImageButton Add;
     private ImageButton BTop;
+    private TextView Delete;
     private List<announceList> list;
     private List<announceList> Rlist;
     private View root;
@@ -48,10 +50,12 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
         if(root==null){
             root=inflater.inflate(R.layout.fragment_new_announce,container,false);
         }
+
         listView=root.findViewById(R.id.list_view);
         helper=new DBHelper(getActivity());
         Add=root.findViewById(R.id.add);
         BTop=root.findViewById(R.id.backtop);
+        Delete=root.findViewById(R.id.delete);
         listView.setOnItemClickListener(this);
         //点击添加新的内容
         Add.setOnClickListener(new View.OnClickListener() {
@@ -61,17 +65,6 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
                 startActivityForResult(intent,1);
             }
         });
-        //点击返回顶部
-        BTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.backtop:
-                        setListViewPos(0);
-                        break;
-                }
-            }
-        });
         //滑动时处与顶部不显示返回按键，其他时候显示。
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -79,11 +72,10 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
                 switch(scrollState){
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                         scrollFlag=false;
-                        if(Rlist.size()-listView.getLastVisiblePosition()-1>=2){
+                        if(listView.getLastVisiblePosition()==listView.getCount()-1){
                             BTop.setVisibility(View.VISIBLE);
                         }
-                        if(listView.getFirstVisiblePosition()==(listView
-                                .getCount() - 1)){
+                        if(listView.getFirstVisiblePosition()==0){
                             BTop.setVisibility(View.GONE);
                         }
                         break;
@@ -102,7 +94,7 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
                 if (scrollFlag
                         && ScreenUtil.getScreenViewBottomHeight(listView) >= ScreenUtil
                         .getScreenHeight(getActivity())) {
-                    if (Rlist.size()-firstVisibleItem > lastVisibleItemPosition) {// 上滑
+                    if (firstVisibleItem > lastVisibleItemPosition) {// 上滑
                         BTop.setVisibility(View.VISIBLE);
                     } else if (firstVisibleItem < lastVisibleItemPosition) {// 下滑
                         BTop.setVisibility(View.GONE);
@@ -114,6 +106,18 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
 
             }
         });
+        //点击返回顶部
+        BTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.backtop:
+                        setListViewPos(0);
+                        break;
+                }
+            }
+        });
+
         return root;
     }
 
@@ -121,7 +125,6 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         initData();
-
     }
     @SuppressLint("Range")
     private void initData() {

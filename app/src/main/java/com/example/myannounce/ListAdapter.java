@@ -16,10 +16,10 @@ import java.util.List;
 
 public class ListAdapter extends BaseAdapter{
     List<announceList> mList;
-    public ListAdapter( List<announceList> list)
-    {
-        mList=list;
-    }
+    //public ListAdapter( List<announceList> list)
+    //{
+    //    mList=list;
+    //}
 
     @Override
     public int getCount() {

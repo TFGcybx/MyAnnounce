@@ -44,27 +44,33 @@ public class new_announce extends AppCompatActivity {
         String titleStr=et_announce_title.getText().toString().trim();
         String detailsStr=et_announce_details.getText().toString().trim();
         String dateStr=sDateFormat.format(new java.util.Date());;
-        SQLiteDatabase db=helper.getWritableDatabase();
-        ContentValues values=new ContentValues();
-        values.put("UName",unameStr);
-        values.put("Title",titleStr);
-        values.put("Details",detailsStr);
-        values.put("Date",dateStr);
-        long account=db.insert("announce",null,values);
-        if(account>0){
-            Toast toast=Toast.makeText(this,"发表成功",Toast.LENGTH_SHORT);
+        if("".equals(detailsStr)){
+            Toast toast=Toast.makeText(this,"请输入内容",Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER,0,0);
             toast.show();
+        }else {
+            SQLiteDatabase db = helper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("UName", unameStr);
+            values.put("Title", titleStr);
+            values.put("Details", detailsStr);
+            values.put("Date", dateStr);
+            long account = db.insert("announce", null, values);
+            if (account > 0) {
+                Toast toast = Toast.makeText(this, "发表成功", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                setResult(1);
+                finish();
+            } else {
+                Toast toast = Toast.makeText(this, "请重试", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                db.close();
+            }
             setResult(1);
             finish();
-        }else{
-            Toast toast=Toast.makeText(this,"请重试",Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER,0,0);
-            toast.show();
-            db.close();
         }
-        setResult(1);
-        finish();
     }
 
     public void noButton(View view){
@@ -75,3 +81,4 @@ public class new_announce extends AppCompatActivity {
         finish();
     }
 }
+
