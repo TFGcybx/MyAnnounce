@@ -53,6 +53,7 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
         Add=root.findViewById(R.id.add);
         BTop=root.findViewById(R.id.backtop);
         listView.setOnItemClickListener(this);
+        //点击添加新的内容
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,6 +61,7 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
                 startActivityForResult(intent,1);
             }
         });
+        //点击返回顶部
         BTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +72,7 @@ public class NewAnnounce extends Fragment implements AdapterView.OnItemClickList
                 }
             }
         });
+        //滑动时处与顶部不显示返回按键，其他时候显示。
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
