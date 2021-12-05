@@ -7,14 +7,14 @@
     tools:context=".new_announce">
 
     <TextView
+        android:id="@+id/topTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/topTitle"
-        android:text="Announce"
-        android:textSize="30sp"
-        android:textColor="#FFFFFF"
+        android:background="#6E1482"
         android:gravity="center_horizontal"
-        android:background="#6E1482"/>
+        android:text="Announce"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
 
     <ListView
         android:id="@+id/list_view"
@@ -23,13 +23,25 @@
         android:layout_below="@+id/topTitle" />
     <ImageButton
         android:id="@+id/add"
-        android:onClick="addAnnounce"
+        android:clickable="true"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="centerInside"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:background="#00FF0000"
         android:src="@drawable/tianjia"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:focusable="true" />
 
+    <ImageButton
+        android:id="@+id/backtop"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/add"
+        android:layout_alignParentEnd="true"
+        android:background="#00ff0000"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/backtop"
+        android:focusable="true" />
 </RelativeLayout>

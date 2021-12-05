@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -14,6 +15,8 @@ import androidx.fragment.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -22,13 +25,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class NewAnnounce extends Fragment {
+public class NewAnnounce extends Fragment implements AdapterView.OnItemClickListener{
     private DBHelper helper;
     private ListView listView;
     private ImageButton Add;
+    private ImageButton BTop;
     private List<announceList> list;
     private List<announceList> Rlist;
     private View root;
+    private boolean scrollFlag = false;
+    private int lastVisibleItemPosition = 0;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,25 +45,80 @@ public class NewAnnounce extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,
                              Bundle savedInstenceState){
-
-        if (root==null) {
-            root = inflater.inflate(R.layout.fragment_new_announce, container, false);
+        if(root==null){
+            root=inflater.inflate(R.layout.fragment_new_announce,container,false);
         }
+        listView=root.findViewById(R.id.list_view);
+        helper=new DBHelper(getActivity());
+        Add=root.findViewById(R.id.add);
+        BTop=root.findViewById(R.id.backtop);
+        listView.setOnItemClickListener(this);
+        Add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),new_announce.class);
+                startActivityForResult(intent,1);
+            }
+        });
+        BTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.backtop:
+                        setListViewPos(0);
+                        break;
+                }
+            }
+        });
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch(scrollState){
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        scrollFlag=false;
+                        if(Rlist.size()-listView.getLastVisiblePosition()-1>=2){
+                            BTop.setVisibility(View.VISIBLE);
+                        }
+                        if(listView.getFirstVisiblePosition()==(listView
+                                .getCount() - 1)){
+                            BTop.setVisibility(View.GONE);
+                        }
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        scrollFlag=true;
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        scrollFlag=false;
+                        break;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                if (scrollFlag
+                        && ScreenUtil.getScreenViewBottomHeight(listView) >= ScreenUtil
+                        .getScreenHeight(getActivity())) {
+                    if (Rlist.size()-firstVisibleItem > lastVisibleItemPosition) {// 上滑
+                        BTop.setVisibility(View.VISIBLE);
+                    } else if (firstVisibleItem < lastVisibleItemPosition) {// 下滑
+                        BTop.setVisibility(View.GONE);
+                    } else {
+                        return;
+                    }
+                    lastVisibleItemPosition = firstVisibleItem;
+                }
+
+            }
+        });
         return root;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        initView();
         initData();
-        Add=(ImageButton) root.findViewById(R.id.add);
-        Add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addAnnounce(v);
-            }
-        });
+
     }
     @SuppressLint("Range")
     private void initData() {
@@ -82,11 +144,6 @@ public class NewAnnounce extends Fragment {
         db.close();
     }
 
-    private void initView() {
-        helper=new DBHelper(getActivity());
-        listView= getActivity().findViewById(R.id.list_view);
-        Add= getActivity().findViewById(R.id.add);
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -95,9 +152,16 @@ public class NewAnnounce extends Fragment {
             this.initData();
         }
     }
-    public void addAnnounce(View view){
-        Intent intent=new Intent(getActivity(),new_announce.class);
-        startActivityForResult(intent,1);
+    private void setListViewPos(int pos){
+        if(Build.VERSION.SDK_INT>=3){
+            listView.smoothScrollToPosition(pos);
+        }else{
+            listView.setSelection(pos);
+        }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
 }

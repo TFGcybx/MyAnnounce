@@ -66,4 +66,12 @@ public class new_announce extends AppCompatActivity {
         setResult(1);
         finish();
     }
+
+    public void noButton(View view){
+        Toast toast=Toast.makeText(this,"已取消",Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
+        setResult(0);
+        finish();
+    }
 }

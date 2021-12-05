@@ -7,9 +7,13 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
+
 public class ListAdapter extends BaseAdapter{
     List<announceList> mList;
     public ListAdapter( List<announceList> list)
